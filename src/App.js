@@ -22,7 +22,8 @@ function App() {
 						<Nav.Link
 							onClick={() => {
 								navigate("/event");
-							}}>
+							}}
+						>
 							Event
 						</Nav.Link>
 					</Nav>
@@ -30,7 +31,10 @@ function App() {
 			</Navbar>
 
 			<Routes>
-				<Route path="/" element={<Main shoes={shoes} setShoes={setShoes}></Main>} />
+				<Route
+					path="/"
+					element={<Main shoes={shoes} setShoes={setShoes}></Main>}
+				/>
 
 				<Route path="/detail/:urlParam" element={<Detail shoes={shoes} />} />
 
