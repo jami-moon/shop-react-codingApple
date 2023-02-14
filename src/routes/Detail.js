@@ -1,8 +1,12 @@
 import { useEffect, useState, useContext } from 'react';
 import { useParams } from 'react-router-dom';
 import styled from 'styled-components';
+import { useDispatch } from 'react-redux';
+
 import { Nav } from 'react-bootstrap';
-import {Context1} from '../App.js'
+import { Context1 } from '../App.js';
+import { addToCart, addViewed } from '../store.js';
+import { useSelector } from 'react-redux';
 
 let Btn = styled.button`
   background: ${(props) => props.bg};
@@ -25,18 +29,12 @@ function Detail(props) {
   });
   let [tab, setTab] = useState(0);
   let [detailFade, setDetailFade] = useState('');
-
-  useEffect(() => {
-    if (isNaN(num)) {
-      alert(`숫자만 입력하시요`);
-      setNum(``);
-    }
-  }, [num]);
+  let dispatch = useDispatch();
 
   useEffect(() => {
     let timer = setTimeout(() => {
       setAlert(0);
-    }, 2000);
+    }, 5000);
 
     setDetailFade('end');
 
@@ -46,10 +44,23 @@ function Detail(props) {
     };
   }, []);
 
+  // num 변할 때만 실행
+  useEffect(() => {
+    if (isNaN(num)) {
+      alert(`숫자만 입력하시요`);
+      setNum(``);
+    }
+  }, [num]);
+
+  // 상품페이지 접속 시 로컬스토리지 watched에 id값 추가
+  useEffect(() => {
+    dispatch(addViewed(product.id));
+  }, [dispatch, product]);
+
   if (product) {
     return (
       <div className={`start ${detailFade}`}>
-        {Alert === 1 ? <div className="alert alert-warning">2초 후 사라지는 박스</div> : null}
+        {Alert === 1 ? <div className="alert alert-warning">프로모션 박스 - 이 메시지는 5초 뒤 사라집니다!</div> : null}
         <div className="container">
           <Btn bg="blue">props로 bg 색상이 전달되는 버튼</Btn>
           <NewBtn bg="yellow">bg props가 있으면 그것을 따르고, 없으면 빨간 바탕인 버튼</NewBtn>
@@ -67,7 +78,14 @@ function Detail(props) {
               <h4 className="pt-5">{product.title}</h4>
               <p>{product.content}</p>
               <p>{product.price}</p>
-              <button className="btn btn-danger">주문하기</button>
+              <button
+                className="btn btn-danger"
+                onClick={() => {
+                  dispatch(addToCart({ id: product.id, name: product.title, count: 1 }));
+                }}
+              >
+                장바구니에 담기
+              </button>
             </div>
           </div>
 

@@ -1,26 +1,23 @@
 import { Col } from 'react-bootstrap';
 import { useNavigate } from 'react-router-dom';
 
-function Card(props) {
-  const { shoes } = props;
+function Viewed(props) {
   const navigate = useNavigate();
-  const detailPagePath = `/detail/${shoes.id}`;
+  const { viewItem } = props;
+  const detailPagePath = `/detail/${viewItem}`;
 
   return (
     <Col sm>
       <img
-        src={`https://codingapple1.github.io/shop/shoes${shoes.id + 1}.jpg`}
+        src={`https://codingapple1.github.io/shop/shoes${viewItem + 1}.jpg`}
         width="100%"
         alt="상품사진"
         onClick={() => {
           navigate(detailPagePath);
         }}
       />
-      <h4>{shoes.title}</h4>
-      <h4>{shoes.price}</h4>
-      <p>{shoes.content}</p>
     </Col>
   );
 }
 
-export default Card;
+export default Viewed;

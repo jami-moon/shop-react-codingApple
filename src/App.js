@@ -1,8 +1,8 @@
 import { createContext, useState } from 'react';
-import { Col, Row, Container, Nav, Navbar } from 'react-bootstrap';
+import { Container, Nav, Navbar } from 'react-bootstrap';
 import './App.css';
 import data from './data';
-import { Routes, Route, Link, useNavigate, Outlet } from 'react-router-dom';
+import { Routes, Route, useNavigate } from 'react-router-dom';
 
 import Detail from './routes/Detail';
 import Main from './routes/Main';
@@ -13,7 +13,7 @@ export let Context1 = createContext();
 
 function App() {
   let [shoes, setShoes] = useState(data);
-  const [재고] = useState([10, 11, 12]);
+  const [stock] = useState([10, 11, 12]);
   let navigate = useNavigate();
 
   return (
@@ -46,7 +46,7 @@ function App() {
         <Route
           path="/detail/:urlParam"
           element={
-            <Context1.Provider value={{ 재고, shoes }}>
+            <Context1.Provider value={{ stock, shoes }}>
               <Detail />
             </Context1.Provider>
           }
@@ -57,7 +57,7 @@ function App() {
           <Route path="two" element={<div>생일 기념 쿠폰 받기 </div>} />
         </Route>
 
-        <Route path="/cart" element={<Cart/>}/>
+        <Route path="/cart" element={<Cart />} />
 
         <Route path="*" element={<div>없는 페이지</div>} />
       </Routes>
