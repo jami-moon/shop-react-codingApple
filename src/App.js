@@ -1,4 +1,4 @@
-import { createContext, useState } from 'react';
+import { createContext, useEffect, useState } from 'react';
 import { Container, Nav, Navbar } from 'react-bootstrap';
 import './App.css';
 import data from './data';
@@ -15,6 +15,14 @@ function App() {
   let [shoes, setShoes] = useState(data);
   const [stock] = useState([10, 11, 12]);
   let navigate = useNavigate();
+
+  useEffect(() => {
+    const isArrayExist = localStorage.getItem('viewed') || false;
+
+    if (!isArrayExist) {
+      localStorage.setItem('viewed', JSON.stringify([]));
+    }
+  }, []);
 
   return (
     <div className="App">

@@ -45,8 +45,9 @@ let viewed = createSlice({
   name: 'viewed',
   initialState: JSON.parse(localStorage.getItem('viewed')) || [],
   reducers: {
-    setViewed(state, action){
-      state = action.payload
+    setViewed(state, action) {
+      const viewedArr = JSON.parse(localStorage.getItem('viewed'));
+      state = viewedArr;
     },
     setDefault(state, action) {
       localStorage.setItem('viewed', JSON.stringify(state));
@@ -63,8 +64,8 @@ let viewed = createSlice({
       if (!isAlreadyViewed) {
         viewedArr.push(currentId);
         localStorage.setItem('viewed', JSON.stringify(viewedArr));
-        state = viewedArr
-      } else { 
+        state = viewedArr;
+      } else {
         viewedArr.splice(targetIdx, 1);
         viewedArr.push(currentId);
         localStorage.setItem('viewed', JSON.stringify(viewedArr));

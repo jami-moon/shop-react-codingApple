@@ -6,7 +6,6 @@ import { useDispatch } from 'react-redux';
 import { Nav } from 'react-bootstrap';
 import { Context1 } from '../App.js';
 import { addToCart, addViewed } from '../store.js';
-import { useSelector } from 'react-redux';
 
 let Btn = styled.button`
   background: ${(props) => props.bg};
