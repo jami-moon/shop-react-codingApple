@@ -1,6 +1,12 @@
+import { memo } from 'react';
 import { Table } from 'react-bootstrap';
 import { useDispatch, useSelector } from 'react-redux';
 import { increaseAge, addCount, removeFromCart } from '../store';
+
+let Child = memo(function(){
+  console.log(`재렌더링`);
+  return <div>자식컴포넌트</div>
+})
 
 function Cart() {
   let state = useSelector((state) => state);
@@ -8,8 +14,9 @@ function Cart() {
 
   return (
     <div>
+      <Child></Child>
       <h2>
-        {state.user.name}, {state.user.age}살의 장바구니
+        {state.user.name}의 장바구니
       </h2>
       <button
         onClick={() => {

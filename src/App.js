@@ -1,13 +1,16 @@
-import { createContext, useEffect, useState } from 'react';
+import { createContext, useEffect, useState, lazy, Suspense } from 'react';
 import { Container, Nav, Navbar } from 'react-bootstrap';
 import './App.css';
 import data from './data';
 import { Routes, Route, useNavigate } from 'react-router-dom';
+import { useQuery } from 'react-query';
+import axios from 'axios';
 
-import Detail from './routes/Detail';
 import Main from './routes/Main';
 import Event from './routes/Event';
-import Cart from './routes/Cart';
+
+const Detail = lazy(() => import('./routes/Detail.js'));
+const Cart = lazy(() => import('./routes/Cart.js'));
 
 export let Context1 = createContext();
 
@@ -15,6 +18,16 @@ function App() {
   let [shoes, setShoes] = useState(data);
   const [stock] = useState([10, 11, 12]);
   let navigate = useNavigate();
+
+  let result = useQuery(
+    '작명',
+    () =>
+      axios.get('https://codingapple1.github.io/userdata.json').then((a) => {
+        console.log(`요청됨`);
+        return a.data;
+      }),
+    { staleTime: 1000 * 5 }
+  );
 
   useEffect(() => {
     const isArrayExist = localStorage.getItem('viewed') || false;
@@ -44,6 +57,11 @@ function App() {
             >
               Cart
             </Nav.Link>
+          </Nav>
+          <Nav className="ms-auto header__greeting">
+            {result.isLoading && `로딩중`}
+            {result.error && `에러남`}
+            {result.data && result.data.name}
           </Nav>
         </Container>
       </Navbar>

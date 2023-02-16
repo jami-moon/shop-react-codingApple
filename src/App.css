@@ -18,3 +18,7 @@
   background-size: cover;
   background-position: center;
 }
+
+.header__greeting {
+  color: #fff;
+}
